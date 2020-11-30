@@ -478,13 +478,13 @@ def select_backend(module, backend, content, passphrase=None, return_private_key
                              exception=PYOPENSSL_IMP_ERR)
         module.deprecate('The module is using the PyOpenSSL backend. This backend has been deprecated',
                          version='2.0.0', collection_name='community.crypto')
-        return backend, PrivateKeyInfoRetrievalCryptography(
+        return backend, PrivateKeyInfoRetrievalPyOpenSSL(
             module, content, passphrase=passphrase, return_private_key_data=return_private_key_data)
     elif backend == 'cryptography':
         if not CRYPTOGRAPHY_FOUND:
             module.fail_json(msg=missing_required_lib('cryptography >= {0}'.format(MINIMAL_CRYPTOGRAPHY_VERSION)),
                              exception=CRYPTOGRAPHY_IMP_ERR)
-        return backend, PrivateKeyInfoRetrievalPyOpenSSL(
+        return backend, PrivateKeyInfoRetrievalCryptography(
             module, content, passphrase=passphrase, return_private_key_data=return_private_key_data)
     else:
         raise Exception('Unsupported value for backend: {0}'.format(backend))

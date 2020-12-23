@@ -157,7 +157,7 @@ class CertificateInfoRetrieval(object):
     def _get_ocsp_uri(self):
         pass
 
-    def get_info(self):
+    def get_info(self, prefer_one_fingerprint=False):
         result = dict()
         self.cert = load_certificate(None, content=self.content, backend=self.backend)
 
@@ -187,9 +187,11 @@ class CertificateInfoRetrieval(object):
 
         result['public_key'] = self._get_public_key(binary=False)
         pk = self._get_public_key(binary=True)
-        result['public_key_fingerprints'] = get_fingerprint_of_bytes(pk) if pk is not None else dict()
+        result['public_key_fingerprints'] = get_fingerprint_of_bytes(
+            pk, prefer_one=prefer_one_fingerprint) if pk is not None else dict()
 
-        result['fingerprints'] = get_fingerprint_of_bytes(self._get_der_bytes())
+        result['fingerprints'] = get_fingerprint_of_bytes(
+            self._get_der_bytes(), prefer_one=prefer_one_fingerprint)
 
         if self.backend != 'pyopenssl':
             ski = self._get_subject_key_identifier()
@@ -496,12 +498,12 @@ class CertificateInfoRetrievalPyOpenSSL(CertificateInfoRetrieval):
         return None
 
 
-def get_certificate_info(module, backend, content):
+def get_certificate_info(module, backend, content, prefer_one_fingerprint=False):
     if backend == 'cryptography':
         info = CertificateInfoRetrievalCryptography(module, content)
     elif backend == 'pyopenssl':
         info = CertificateInfoRetrievalPyOpenSSL(module, content)
-    return info.get_info()
+    return info.get_info(prefer_one_fingerprint=prefer_one_fingerprint)
 
 
 def select_backend(module, backend, content):

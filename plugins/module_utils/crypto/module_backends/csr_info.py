@@ -132,7 +132,7 @@ class CSRInfoRetrieval(object):
     def _is_signature_valid(self):
         pass
 
-    def get_info(self):
+    def get_info(self, prefer_one_fingerprint=False):
         result = dict()
         self.csr = load_certificate_request(None, content=self.content, backend=self.backend)
 
@@ -154,7 +154,8 @@ class CSRInfoRetrieval(object):
 
         result['public_key'] = self._get_public_key(binary=False)
         pk = self._get_public_key(binary=True)
-        result['public_key_fingerprints'] = get_fingerprint_of_bytes(pk) if pk is not None else dict()
+        result['public_key_fingerprints'] = get_fingerprint_of_bytes(
+            pk, prefer_one=prefer_one_fingerprint) if pk is not None else dict()
 
         if self.backend != 'pyopenssl':
             ski = self._get_subject_key_identifier()
@@ -414,12 +415,12 @@ class CSRInfoRetrievalPyOpenSSL(CSRInfoRetrieval):
             return False
 
 
-def get_csr_info(module, backend, content, validate_signature=True):
+def get_csr_info(module, backend, content, validate_signature=True, prefer_one_fingerprint=False):
     if backend == 'cryptography':
         info = CSRInfoRetrievalCryptography(module, content, validate_signature=validate_signature)
     elif backend == 'pyopenssl':
         info = CSRInfoRetrievalPyOpenSSL(module, content, validate_signature=validate_signature)
-    return info.get_info()
+    return info.get_info(prefer_one_fingerprint=prefer_one_fingerprint)
 
 
 def select_backend(module, backend, content, validate_signature=True):

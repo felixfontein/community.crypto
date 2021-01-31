@@ -89,8 +89,7 @@ if [ "${script}" != "units" ] && [ "${script}" != "sanity" ] && [ "${ansible_ver
     retry ansible-galaxy -vvv collection install community.general
 fi
 if [ "${script}" != "units" ] && [ "${script}" != "sanity" ]; then
-    # Install my branch
-    git clone --single-branch --depth 1 --branch diff-state-modules https://github.com/felixfontein/community.internal_test_tools.git ../internal_test_tools
+    git clone --single-branch --depth 1 https://github.com/ansible-collections/community.internal_test_tools.git ../internal_test_tools
 fi
 # END: HACK
 

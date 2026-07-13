@@ -4,6 +4,20 @@ Community Crypto Release Notes
 
 .. contents:: Topics
 
+v3.3.0
+======
+
+Release Summary
+---------------
+
+Feature release.
+
+Minor Changes
+-------------
+
+- Update vendored list of OID names from OpenSSL (https://github.com/ansible-collections/community.crypto/pull/1057).
+- openssl_privatekey\*, openssl_publickey\*, openssl_csr\*, x509_certificate\* - support ML-DSA-{44,65,87} private keys (https://github.com/ansible-collections/community.crypto/issues/1056, https://github.com/ansible-collections/community.crypto/pull/1058).
+
 v3.2.2
 ======
 

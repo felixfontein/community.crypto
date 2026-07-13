@@ -1,2 +1,0 @@
-minor_changes:
-  - "Update vendored list of OID names from OpenSSL (https://github.com/ansible-collections/community.crypto/pull/1057)."

@@ -1971,3 +1971,16 @@ releases:
       - 1044-pqc.yml
       - 3.2.2.yml
     release_date: '2026-06-14'
+  3.3.0:
+    changes:
+      minor_changes:
+        - Update vendored list of OID names from OpenSSL (https://github.com/ansible-collections/community.crypto/pull/1057).
+        - openssl_privatekey\*, openssl_publickey\*, openssl_csr\*, x509_certificate\*
+          - support ML-DSA-{44,65,87} private keys (https://github.com/ansible-collections/community.crypto/issues/1056,
+          https://github.com/ansible-collections/community.crypto/pull/1058).
+      release_summary: Feature release.
+    fragments:
+      - 1057-openssl-names.yml
+      - 1058-privatekey-ml-dsa.yml
+      - 3.3.0.yml
+    release_date: '2026-07-13'
